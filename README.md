@@ -22,9 +22,9 @@ npm run dev
 ```
 
 ## 🎯 Uso
-**1.** Abra o navegador em http://localhost:5173
-**2.** Explore o catálogo de filmes e séries
-**3.** Utilize a barra de busca para encontrar títulos rapidamente
+**1.** Abra o navegador em http://localhost:5173 \
+**2.** Explore o catálogo de filmes e séries \
+**3.** Utilize a barra de busca para encontrar títulos rapidamente \
 
 ## 📚 Funcionalidades
 - Catálogo dinâmico de filmes e séries
