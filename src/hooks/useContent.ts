@@ -81,3 +81,20 @@ export const useAllContent = () => {
         },
     });
 };
+
+export const useFeaturedContent = () => {
+    return useQuery({
+        queryKey: ["content", "featured"],
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("content")
+                .select("*")
+                .order("rating", { ascending: false, nullsFirst: false })
+                .limit(1)
+                .single();
+
+            if (error) throw error;
+            return data as Content;
+        },
+    });
+};
