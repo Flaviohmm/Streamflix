@@ -18,16 +18,16 @@ const HeroSection = () => {
         return null;
     }
 
-    const imageUrl = featuredContent.image_url || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";
+    const backdropUrl = featuredContent.backdrop_url || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";
     return (
         <div className="relative h-[80vh] w-full">
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent z-10" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
 
             <img
-                src={imageUrl}
+                src={backdropUrl}
                 alt={featuredContent.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
             />
 
             <div className="absolute inset-0 z-20 flex items-center">

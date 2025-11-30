@@ -1,18 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-interface Category {
+export interface Category {
     id: string;
     name: string;
     slug: string;
     created_at: string;
 }
 
-interface Content {
+export interface Content {
     id: string;
     title: string;
     description: string | null;
     image_url: string | null;
+    backdrop_url: string | null;
     video_url: string | null;
     trailer_url: string | null;
     content_type: "movie" | "series";
@@ -24,7 +25,7 @@ interface Content {
     updated_at: string;
 }
 
-interface ContentWithCategory extends Content {
+export interface ContentWithCategory extends Content {
     categories?: Category;
 }
 
