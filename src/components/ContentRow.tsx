@@ -53,7 +53,7 @@ const ContentRow = ({ title, contents }: ContentRowProps) => {
                 >
                     {contents.map((content) => (
                         <div key={content.id} className="min-w-[200px] md:min-w-[250px]">
-                            <ContentCard title={content.title} imageUrl={content.imageUrl} />
+                            <ContentCard id={content.id.toString()} title={content.title} imageUrl={content.imageUrl} />
                         </div>
                     ))}
                 </div>

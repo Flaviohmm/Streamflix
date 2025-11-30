@@ -8,6 +8,12 @@ export interface Category {
     created_at: string;
 }
 
+export interface CastMember {
+    name: string;
+    character: string;
+    image?: string;
+}
+
 export interface Content {
     id: string;
     title: string;
@@ -21,6 +27,7 @@ export interface Content {
     duration_minutes: number | null;
     rating: number | null;
     category_id: string | null;
+    cast?: CastMember[];
     created_at: string;
     updated_at: string;
 }
@@ -97,5 +104,29 @@ export const useFeaturedContent = () => {
             if (error) throw error;
             return data as Content;
         },
+    });
+};
+
+export const useContentDetails = (contentId: string) => {
+    return useQuery({
+        queryKey: ["content", "details", contentId],
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("content")
+                .select(`
+                    *,
+                    categories:category_id (
+                        id,
+                        name,
+                        slug
+                    )
+                `)
+                .eq("id", contentId)
+                .single();
+
+            if (error) throw error;
+            return data as ContentWithCategory;
+        },
+        enabled: !!contentId,
     });
 };
