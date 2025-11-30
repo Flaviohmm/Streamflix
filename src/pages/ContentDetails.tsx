@@ -36,6 +36,16 @@ const ContentDetails = () => {
 
     const backdropUrl = content.backdrop_url || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";
 
+    // Converter URL do YouTube para formato embed
+    const getEmbedUrl = (url: string) => {
+        const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/;
+        const match = url.match(youtubeRegex);
+        if (match && match[1]) {
+            return `https://www.youtube.com/embed/${match[1]}`;
+        }
+        return url;
+    };
+
     return (
         <div className="min-h-screen bg-background">
             {/* Header com backdrop */}
@@ -123,7 +133,7 @@ const ContentDetails = () => {
                             <h2 className="text-3xl font-bold mb-4 text-foreground">Trailer</h2>
                             <div className="aspect-video bg-muted rounded-lg overflow-hidden">
                                 <iframe
-                                    src={content.trailer_url}
+                                    src={getEmbedUrl(content.trailer_url)}
                                     title={`${content.title} - Trailer`}
                                     className="w-full h-full"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
