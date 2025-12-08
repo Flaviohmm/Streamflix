@@ -1,6 +1,5 @@
-import { Search, Bell, User, LogOut } from "lucide-react";
+import { Bell, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
     const { user, loading, signOut } = useAuth();
@@ -34,13 +34,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <div className="hidden md:flex items-center gap-2 bg-card border border-border rounded-md px-3 py-1.5">
-                        <Search className="w-4 h-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Buscar..."
-                            className="border-0 bg-transparent focus-visible:ring-0 w-[200px]"
-                        />
-                    </div>
+                    <SearchBar />
 
                     {!loading && (
                         <>
