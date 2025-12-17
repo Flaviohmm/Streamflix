@@ -1,14 +1,38 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Play, ArrowLeft, Star, Clock, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useContentDetails } from "@/hooks/useContent";
+import VideoPlayer from "@/components/VideoPlayer";
 
 const ContentDetails = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { data: content, isLoading } = useContentDetails(id || "");
+
+    const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+    const [watchProgress, setWatchProgress] = useState(0);
+
+    const handleProgressUpdate = (currentTime: number, duration: number) => {
+        const progress = (currentTime / duration) * 100;
+        setWatchProgress(progress);
+        // Salvar progresso no localStorage
+        if (id) {
+            localStorage.setItem(`watch-progress-${id}`, JSON.stringify({ currentTime, duration, progress }));
+        }
+    };
+
+    const getSavedProgress = () => {
+        if (id) return 0;
+        const saved = localStorage.getItem(`watch-progress-${id}`);
+        if (saved) {
+            const { currentTime } = JSON.parse(saved);
+            return currentTime;
+        }
+        return 0;
+    };
 
     if (isLoading) {
         return (
@@ -104,15 +128,42 @@ const ContentDetails = () => {
                             </div>
 
                             <div className="flex flex-wrap gap-4 pt-4">
-                                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
+                                <Button
+                                    size="lg"
+                                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                                    onClick={() => setIsPlayerOpen(true)}
+                                >
                                     <Play className="w-5 h-5 mr-2" />
-                                    Reproduzir
+                                    {getSavedProgress() > 0 ? "Continuar" : "Reproduzir"}
                                 </Button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Video Player Modal */}
+            {isPlayerOpen && (
+                <div className="fixed inset-0 z-50 bg-black">
+                    <div className="absolute top-4 left-4 z-50">
+                        <Button
+                            variant="ghost"
+                            onClick={() => setIsPlayerOpen(false)}
+                            className="text-foreground hover:bg-foreground/10"
+                        >
+                            <ArrowLeft className="w-5 h-5 mr-2" />
+                            Voltar
+                        </Button>
+                    </div>
+                    <VideoPlayer
+                        src={content.video_url || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}
+                        poster={backdropUrl}
+                        title={content.title}
+                        onProgessUpdate={handleProgressUpdate}
+                        initialProgess={getSavedProgress()}
+                    />
+                </div>
+            )}
 
             {/* Conteúdo detalhado */}
             <div className="container mx-auto px-4 py-12">
