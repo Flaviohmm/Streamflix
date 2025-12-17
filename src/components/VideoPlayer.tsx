@@ -19,6 +19,7 @@ interface VideoPlayerProps {
     title?: string;
     onProgessUpdate?: (progress: number, duration: number) => void;
     initialProgess?: number;
+    className?: string;
 }
 
 const VideoPlayer = ({
@@ -27,6 +28,7 @@ const VideoPlayer = ({
     title,
     onProgessUpdate,
     initialProgess = 0,
+    className,
 }: VideoPlayerProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -224,8 +226,9 @@ const VideoPlayer = ({
         <div
             ref={containerRef}
             className={cn(
-                "relative bg-black rounded-lg overflow-hidden group",
-                isFullscreen && "rounded-none"
+                "relative bg-black rounded-lg overflow-hidden group w-full aspect-video",
+                isFullscreen && "rounded-none aspect-auto w-full h-full",
+                className
             )}
             onMouseMove={handleMouseMove}
             onMouseLeave={() => isPlaying && setShowControls(false)}
@@ -234,7 +237,7 @@ const VideoPlayer = ({
                 ref={videoRef}
                 src={src}
                 poster={poster}
-                className="w-full h-full aspect-video cursor-pointer"
+                className="w-full h-full object-contain cursor-pointer"
                 onClick={handlePlayPause}
                 playsInline
             />
@@ -250,7 +253,7 @@ const VideoPlayer = ({
             {!isPlaying && !isLoading && (
                 <button
                     onClick={handlePlayPause}
-                    className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
+                    className="absolute inset-0 bottom-24 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors z-10"
                 >
                     <div className="w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
                         <Play className="w-10 h-10 text-primary-foreground ml-1" />
@@ -261,7 +264,7 @@ const VideoPlayer = ({
             {/* Controls */}
             <div
                 className={cn(
-                    "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-opacity duration-300",
+                    "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-opacity duration-300 z-20",
                     showControls || !isPlaying ? "opacity-100" : "opacity-0"
                 )}
             >

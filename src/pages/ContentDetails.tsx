@@ -156,6 +156,7 @@ const ContentDetails = () => {
                         </Button>
                     </div>
                     <VideoPlayer
+                        className="w-full h-full aspect-auto"
                         src={content.video_url || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}
                         poster={backdropUrl}
                         title={content.title}
