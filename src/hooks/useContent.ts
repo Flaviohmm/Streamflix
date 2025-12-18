@@ -40,6 +40,16 @@ export const useContentByCategory = (categorySlug: string) => {
     return useQuery({
         queryKey: ["content", "category", categorySlug],
         queryFn: async () => {
+            // Primeiro busca a categoria pelo slug
+            const { data: category, error: categoryError } = await supabase
+                .from("categories")
+                .select("id")
+                .eq("slug", categorySlug)
+                .single();
+
+            if (categoryError || !category) return [];
+
+            // Depois busca os conteúdos dessa categoria
             const { data, error } = await supabase
                 .from("content")
                 .select(`
@@ -50,7 +60,7 @@ export const useContentByCategory = (categorySlug: string) => {
                         slug
                     )
                 `)
-                .eq("categories.slug", categorySlug)
+                .eq("category_id", category.id)
                 .order("created_at", { ascending: false });
 
             if (error) throw error;
