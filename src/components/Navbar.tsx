@@ -27,9 +27,9 @@ const Navbar = () => {
                     <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary via-blue-500 to-blue-800 bg-clip-text text-transparent">STREAMFLIX</Link>
                     <div className="hidden md:flex items-center gap-6">
                         <Link to="/" className="text-foreground hover:text-primary transition-colors">Início</Link>
-                        <a href="#" className="text-foreground hover:text-primary transition-colors">Séries</a>
-                        <a href="#" className="text-foreground hover:text-primary transition-colors">Filmes</a>
-                        <a href="#" className="text-foreground hover:text-primary transition-colors">Minha Lista</a>
+                        <Link to="/series" className="text-foreground hover:text-primary transition-colors">Séries</Link>
+                        <Link to="/movies" className="text-foreground hover:text-primary transition-colors">Filmes</Link>
+                        <Link to="/my-list" className="text-foreground hover:text-primary transition-colors">Minha Lista</Link>
                     </div>
                 </div>
 

@@ -140,3 +140,26 @@ export const useContentDetails = (contentId: string) => {
         enabled: !!contentId,
     });
 };
+
+export const useContentByType = (contentType: "movie" | "series") => {
+    return useQuery({
+        queryKey: ["content", "type", contentType],
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("content")
+                .select(`
+                    *,
+                    categories:category_id (
+                        id,
+                        name,
+                        slug
+                    )
+                `)
+                .eq("content_type", contentType)
+                .order("created_at", { ascending: false });
+
+            if (error) throw error;
+            return data as ContentWithCategory[];
+        },
+    });
+};
